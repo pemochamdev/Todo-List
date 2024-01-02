@@ -9,11 +9,11 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 
 def home(request):
-    get_all_todo = Todo.objects.filter(status = True).order_by('-id')
+    get_all_todo = Todo.objects.filter(user=request.user).order_by('-id') #, status = True
 
     if request.method == "POST":
         task = request.POST['task']
-        new_task, created = Todo.objects.get_or_create(user=request.user, title=task, status=True)
+        new_task, created = Todo.objects.get_or_create(user=request.user, title=task, status=False)
         new_task.save()
     template_name = 'todoapp/todo.html'
     context = {
