@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -23,6 +23,18 @@ def home(request):
     return render(request, template_name, context)
 
 
+def delete_task(request, id):
+    get_task = get_object_or_404(Todo, id=id, user=request.user)
+    get_task.delete()
+    return redirect('home')
+
+    
+def update(request, id):
+    get_task = get_object_or_404(Todo, id=id, user=request.user)
+    get_task.status = True
+    get_task.save()
+    return redirect('home')
+   
 
 def register(request):
 

@@ -45,8 +45,13 @@
                     <td>In progress</td>
                     {% endif %}
                     <td>
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                      <button type="submit" class="btn btn-success ms-1">Finished</button>
+
+                      <a type="submit" href=" {% url "delete_task" task.id %} " class="btn btn-danger" >Delete</a>
+                      {% if task.status %}
+                      <a type="submit" class="btn btn-success ms-1 disable" href=" {% url "update" task.id %} ">Finished</a>
+                      {% else %}
+                      <a type="submit" class="btn btn-success ms-1" href=" {% url "update" task.id %} ">Finished</a>
+                      {% endif %}
                     </td>
                   </tr>
                
@@ -60,3 +65,11 @@
       </div>
     </div>
   </section>
+
+  <style>
+    a.disable{
+      pointer-events: none;
+      color: gray;
+      text-decoration: none;
+    }
+  </style>
