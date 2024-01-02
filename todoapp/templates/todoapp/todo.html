@@ -11,10 +11,11 @@
   
               <h4 class="text-center my-3 pb-3">To Do App</h4>
   
-              <form method="#" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+              <form method="post" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+                {% csrf_token %}
                 <div class="col-12">
                   <div class="form-outline">
-                    <input type="text" id="form1" class="form-control" required placeholder="Enter a task here"/>
+                    <input type="text" id="form1" class="form-control" name="task" required placeholder="Enter a task here"/>
                   </div>
                 </div>
   
@@ -22,7 +23,8 @@
                   <button type="submit" class="btn btn-primary">Add Task</button>
                 </div>
               </form>
-  
+              
+              
               <table class="table mb-4">
                 <thead>
                   <tr>
@@ -33,33 +35,18 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for task in get_all_todo %}
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Buy groceries for next week</td>
+                    <th scope="row"> {{task.id}} </th>
+                    <td>{{task.title}}</td>
                     <td>In progress</td>
                     <td>
                       <button type="submit" class="btn btn-danger">Delete</button>
                       <button type="submit" class="btn btn-success ms-1">Finished</button>
                     </td>
                   </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Renew car insurance</td>
-                    <td>In progress</td>
-                    <td>
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                      <button type="submit" class="btn btn-success ms-1">Finished</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Sign up for online course</td>
-                    <td>In progress</td>
-                    <td>
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                      <button type="submit" class="btn btn-success ms-1">Finished</button>
-                    </td>
-                  </tr>
+               
+                  {% endfor %}
                 </tbody>
               </table>
   
