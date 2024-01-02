@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
-from todoapp.models import Todo
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
+
+from todoapp.models import Todo
 
 # Create your views here.
 
-
+@login_required(login_url='login')
 def home(request):
     get_all_todo = Todo.objects.filter(user=request.user).order_by('-id') #, status = True
 
@@ -23,12 +25,14 @@ def home(request):
     return render(request, template_name, context)
 
 
+@login_required(login_url='login')
 def delete_task(request, id):
     get_task = get_object_or_404(Todo, id=id, user=request.user)
     get_task.delete()
     return redirect('home')
 
-    
+
+@login_required(login_url='login')
 def update(request, id):
     get_task = get_object_or_404(Todo, id=id, user=request.user)
     get_task.status = True
@@ -38,6 +42,8 @@ def update(request, id):
 
 def register(request):
 
+    if request.user.is_authenticated:
+        return redirect('home')
     
     if request.method == 'POST':     
         username = request.POST['username']
@@ -70,13 +76,19 @@ def register(request):
 class CustomLoginView(LoginView):
     template_name = 'todoapp/login.html'
     success_url = 'home'
+    redirect_authenticated_user = True
 
     def get_success_url(self) -> str:
         return reverse(self.success_url)
 
+    # def redirect(self, request):
+    #     if request.user.is_authenticated:
+    #         return redirect('home')
+    
+   
 
 class CustomLogoutView(LogoutView):
-    success_url = 'index'
+    success_url = 'home'
     def get_success_url(self) -> str:
         return reverse(self.success_url)
 

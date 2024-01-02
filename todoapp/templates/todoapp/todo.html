@@ -53,11 +53,13 @@
                       <a type="submit" class="btn btn-success ms-1" href=" {% url "update" task.id %} ">Finished</a>
                       {% endif %}
                     </td>
+                    
                   </tr>
-               
-                  {% endfor %}
+                  
+                  {% endfor %}                
                 </tbody>
               </table>
+              <a type="submit" style="background-color: firebrick; color: white; text-align: right;" class="btn btn-success ms-1" href=" {% url "logout" %} ">Logout</a>                  
   
             </div>
           </div>
